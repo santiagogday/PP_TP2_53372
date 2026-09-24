@@ -1,46 +1,43 @@
-# Trabajo Práctico N° 2: Programación Orientada a Objetos en Java
-**Unidad 2: Organización, reutilización y recursos avanzados en POO**  
-**Cátedra:** Paradigmas de Programación  
-**Institución:** Universidad Tecnológica Nacional – Facultad Regional Mendoza (UTN - FRM)  
+# Paradigmas de Programación - Trabajo Práctico N° 2
+**POO en Java: Organización, reutilización y recursos avanzados**  
+**UTN FRM - Ingeniería en Sistemas de Información**  
 **Alumno:** Santiago García Day  
 **Legajo:** 53372  
 
 ---
 
-## 📌 Descripción General
+## 📌 De qué trata el TP
 
-El presente proyecto consiste en la evolución y escalabilidad del **Sistema de Gestión de Eventos Universitarios** desarrollado en el TP1. En esta entrega se incorporan técnicas avanzadas de diseño y programación orientada a objetos en Java:
+En este práctico ampliamos el sistema de eventos que arrancamos en el TP1, llevándolo a un nivel más modular, robusto y escalable. La idea principal fue estructurar mejor las responsabilidades en paquetes y aplicar conceptos avanzados de Java:
 
-- **Modularización y Encapsulamiento:** Organización del modelo en paquetes lógicos (`modelo`, `actividades`, `certificacion`, `excepciones`, `hilos`).
-- **Manejo de Excepciones:** Control de tolerancia a fallos ante cupos excedidos y gestión granular de excepciones de entrada/salida.
-- **Persistencia de Objetos:** Serialización y deserialización de instancias de eventos en disco binario.
-- **Interfaces:** Desacoplamiento de responsabilidades mediante la interfaz `Certificable` para la emisión condicional de certificados.
-- **Generics y Wildcards:** Métodos parametrizados acotados (`<T extends Actividad>`) y comodines (`List<? extends Actividad>`) para tipado seguro y flexible.
-- **Clases Anidadas:** Modelado de `TicketDeAcceso` como clase miembro anidada dentro de `Inscripcion`.
-- **Concurrencia y Multithreading:** Ejecución asíncrona mediante `EnvioTicketsThread` para enviar tickets sin bloquear el flujo principal de ejecución.
+- **Manejo de excepciones:** Creamos y gestionamos excepciones chequeadas para evitar que se inscriban alumnos cuando ya no hay lugar.
+- **Persistencia con serialización:** Guardamos y recuperamos los eventos directamente en disco usando streams de objetos de Java, manejando cualquier fallo de E/S de forma granular.
+- **Interfaces:** Incorporamos la emisión de certificados mediante una interfaz que sólo implementan las actividades que corresponden (talleres y cursos, dejando afuera a las charlas).
+- **Genéricos y Wildcards:** Filtramos actividades por clase asegurando listas tipadas en tiempo de compilación (`<T extends Actividad>`) y calculamos costos de materiales aceptando cualquier subtipo mediante comodines acotados (`List<? extends Actividad>`)[cite: 1].
+- **Clases anidadas e hilos:** Modelamos el ticket de acceso como una clase anidada dentro de la inscripción y armamos un hilo independiente para procesar el envío de tickets en segundo plano sin congelar la consola principal[cite: 1].
 
 ---
 
-## 🏗️ Estructura del Proyecto
+## 🏗️ Organización de paquetes
 
-El código fuente está modularizado en los siguientes paquetes bajo `src/`:
+El proyecto quedó organizado en paquetes para respetar el encapsulamiento y modularidad pedidos en el diagrama de clases[cite: 1]:
 
 ```text
 src/
 └── modelo/
-    ├── EventoUniversitario.java       # Entidad central del evento, cálculo de costos y persistencia
-    ├── Sala.java                      # Sala asignada al evento
-    ├── Estudiante.java                # Datos del estudiante (legajo, nombre)
-    ├── Inscripcion.java               # Registro de inscripción con estado y clase anidada TicketDeAcceso
+    ├── EventoUniversitario.java       # Manejo del evento, salas, actividades y serialización
+    ├── Sala.java                      # Sala vinculada al evento
+    ├── Estudiante.java                # Datos del alumno (legajo y nombre)
+    ├── Inscripcion.java               # Registro de inscripción con su TicketDeAcceso anidado
     ├── actividades/
-    │   ├── Actividad.java             # Clase abstracta base de actividades
-    │   ├── Charla.java                # Subclase no certificable (disertante)
-    │   ├── Taller.java                # Subclase certificable (requiereNotebook)
-    │   └── Curso.java                 # Subclase certificable (horas)
+    │   ├── Actividad.java             # Clase abstracta base
+    │   ├── Charla.java                # Actividad común (no emite certificado)
+    │   ├── Taller.java                # Actividad certificable con requerimiento de notebook
+    │   └── Curso.java                 # Actividad certificable con carga horaria
     ├── certificacion/
-    │   └── Certificable.java          # Interfaz para emisión de certificados de asistencia
+    │   └── Certificable.java          # Interfaz para generar los certificados
     ├── excepciones/
-    │   └── CupoExcedidoException.java # Excepción chequeada personalizada
+    │   └── CupoExcedidoException.java # Excepción chequeada para cupos agotados
     └── hilos/
-        └── EnvioTicketsThread.java    # Hilo concurrente para simular el despacho de accesos
-App.java                               # Clase ejecutable principal con los escenarios de prueba
+        └── EnvioTicketsThread.java    # Hilo para procesar y enviar tickets en paralelo
+App.java                               # Clase principal con todas las pruebas y ejecuciones
