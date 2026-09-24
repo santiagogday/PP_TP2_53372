@@ -11,16 +11,16 @@ En este práctico ampliamos el sistema de eventos que arrancamos en el TP1, util
 
 Salida por consola
 ### Captura 1
-![Captura 1](captura%201.png)
+![Captura 1](captura1.png)
 
 ### Captura 2
-![Captura 2](Captura%202.png)
+![Captura 2](captura2.png)
 
 ### Captura 3
-![Captura 3](caputra%203.png)
+![Captura 3](captura3.png)
 
 ### Captura 4
-![Captura 4](caputra%204.png)
+![Captura 4](captura4.png)
 
 ### Captura 5
-![Captura 5](captura%205.png)
+![Captura 5](captura5.png)
