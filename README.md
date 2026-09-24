@@ -9,18 +9,19 @@ En este práctico ampliamos el sistema de eventos que arrancamos en el TP1, util
 - **Clases anidadas e hilos:** Modelamos el ticket de acceso como una clase anidada dentro de la inscripción y armamos un hilo independiente para procesar el envío de tickets en segundo plano sin congelar la consola principal.
 
 
-Salida por consola
+Salida por consola del ejercicio 4:
+
 ### Captura 1
-![Captura 1](captura1.png)
+![Captura 1](<captura 1.png>)
 
 ### Captura 2
-![Captura 2](captura2.png)
+![Captura 2](<captura 2.png>)
 
 ### Captura 3
-![Captura 3](captura3.png)
+![Captura 3](<captura 3.png>)
 
 ### Captura 4
-![Captura 4](captura4.png)
+![Captura 4](<captura 4.png>)
 
 ### Captura 5
-![Captura 5](captura5.png)
+![Captura 5](<captura 5.png>)
